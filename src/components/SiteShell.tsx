@@ -89,7 +89,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
             (i) =>
               `${i.quantity} × ${i.product.name}${
                 i.product.price
-                  ? ` (${i.product.category === 'Sample kit' ? 'sample kit' : '10 ml'}, ${formatPrice(i.product.price)} each)`
+                  ? ` (${i.product.group === 'oils' ? '10 ml' : i.product.category === 'Sample kit' ? 'sample kit' : 'unit'}, ${formatPrice(i.product.price)} each)`
                   : ''
               }`
           )
@@ -267,7 +267,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
               autoFocus
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search oils, Artisan Scent, soaps, agarbatti…"
+              placeholder="Search oils, perfumes, soaps, agarbatti, car diffusers…"
               aria-label="Search the collection"
             />
           </div>
@@ -317,9 +317,17 @@ export function SiteShell({ children }: { children: ReactNode }) {
                   <>
                     <h3>
                       {formatPrice(product.price)}{' '}
-                      <small>{product.category === 'Sample kit' ? '/ kit' : '/ 10 ml'}</small>
+                      <small>
+                        {product.group === 'oils'
+                          ? '/ 10 ml'
+                          : product.category === 'Sample kit'
+                          ? '/ kit'
+                          : '/ unit'}
+                      </small>
                     </h3>
-                    <p>Bulk packaging available. {formatPrice(product.bulk || 0)} per litre.</p>
+                    {product.bulk ? (
+                      <p>Bulk packaging available. {formatPrice(product.bulk)} per litre.</p>
+                    ) : null}
                   </>
                 ) : (
                   <p>Contact us for available fragrances, sizes and pricing.</p>
@@ -356,7 +364,11 @@ export function SiteShell({ children }: { children: ReactNode }) {
                       <small>
                         {i.product.price
                           ? `${formatPrice(i.product.price)} / ${
-                              i.product.category === 'Sample kit' ? 'kit' : '10 ml'
+                              i.product.group === 'oils'
+                                ? '10 ml'
+                                : i.product.category === 'Sample kit'
+                                ? 'kit'
+                                : 'unit'
                             }`
                           : 'Price on enquiry'}
                       </small>

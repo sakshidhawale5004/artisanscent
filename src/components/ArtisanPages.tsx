@@ -20,7 +20,6 @@ import {
 import { photos } from '@/lib/artisan-assets';
 import { LuxuryPageHero } from './LuxuryPageHero';
 import { LuxuryTiltCard } from './LuxuryTiltCard';
-import { ScentPlayground } from './ScentPlayground';
 
 const heroVideoUrl = '/assets/video/scent.mp4';
 
@@ -81,7 +80,12 @@ export function ProductCard({
           <div className="product-price">
             {product.price ? (
               <>
-                {formatPrice(product.price)} <small>/ 10 ml</small>
+                {formatPrice(product.price)}{' '}
+                {product.group === 'oils' ? (
+                  <small>/ 10 ml</small>
+                ) : (
+                  <small>/ unit</small>
+                )}
               </>
             ) : (
               <small>Discover the collection · Enquire for pricing</small>
@@ -308,9 +312,6 @@ export function HomePage() {
         ))}
       </div>
 
-      {/* Interactive 3D Scent Playground */}
-      <ScentPlayground />
-
       <section className="section">
         <div className="section-heading">
           <div>
@@ -332,7 +333,7 @@ export function HomePage() {
           <span>Pure essential oils</span>
         </div>
         <div>
-          <strong>04</strong>
+          <strong>05</strong>
           <span>Signature product families</span>
         </div>
         <div>
@@ -463,9 +464,6 @@ export function CollectionsPage() {
         breadcrumbs={[{ label: 'Collections' }]}
       />
 
-      {/* Interactive Scent Playground */}
-      <ScentPlayground />
-
       <section className="section collection-catalogue">
         <div className="section-heading">
           <div>
@@ -477,6 +475,12 @@ export function CollectionsPage() {
       </section>
 
       <section className="section">
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">CURATED FAMILIES</span>
+            <h2>The Olfactory Spectrum.</h2>
+          </div>
+        </div>
         <div className="category-grid collection-families">
           {categories.map((c) => (
             <LuxuryTiltCard key={c.path} maxTilt={6} scale={1.02}>
@@ -493,15 +497,6 @@ export function CollectionsPage() {
                 </Button>
               </article>
             </LuxuryTiltCard>
-          ))}
-        </div>
-        <div className="additional-collections">
-          {additionalCategories.map((c) => (
-            <Button key={c.path} asChild variant="editorial">
-              <Link to={c.path}>
-                {c.name} <ArrowUpRight />
-              </Link>
-            </Button>
           ))}
         </div>
       </section>

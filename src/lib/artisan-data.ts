@@ -5,10 +5,9 @@ export const categories = [
   { name: 'Artisan Scent', short: 'Artisan Scent', path: '/perfumes' as const, image: productPhotos.scents[2], text: 'Distinctive fragrance compositions with sophisticated scent profiles for personal wear, special occasions and thoughtful gifting.' },
   { name: 'Agarbatti', short: 'Agarbatti', path: '/incense' as const, image: productPhotos.agarbatti[0], text: 'Floral, woody and soothing fragrances inspired by Indian traditions for prayer, meditation and home ambience.' },
   { name: 'Soaps', short: 'Soaps', path: '/soaps' as const, image: productPhotos.soaps[0], text: 'Refreshing, sensory fragrance designed to complement everyday personal-care routines.' },
+  { name: 'Car perfumes', short: 'Car perfumes', path: '/car-perfumes' as const, image: productPhotos.scents[1], text: 'Compact, stylish diffuser formats with fresh, woody and sophisticated fragrance options for everyday journeys.' },
 ];
-export const additionalCategories = [
-  { name: 'Car perfumes', short: 'Car perfumes', path: '/car-perfumes' as const, image: productPhotos.scents[0], text: 'Compact, stylish diffuser formats with fresh, woody and sophisticated fragrance options.' },
-];
+export const additionalCategories: typeof categories = [];
 export type ProductGroup = 'oils' | 'artisan-scent' | 'soaps' | 'agarbatti' | 'car-perfumes';
 export type Product = { name: string; image: string; category: string; group: ProductGroup; notes: string; price?: number; bulk?: number; sizes?: number[]; botanical?: string; applications?: string };
 export const oils: Product[] = [
@@ -28,8 +27,24 @@ export const showcase = [
   { name: 'Handcrafted Soap Collection', image: productPhotos.soaps[0], category: 'Handcrafted soap', group: 'soaps', notes: 'Fragrance for everyday care' },
   { name: 'Scented Agarbatti Collection', image: productPhotos.agarbatti[0], category: 'Agarbatti', group: 'agarbatti', notes: 'Floral · Woody · Soothing' },
 ] satisfies [Product, Product, Product, Product];
-const scentNames = ['Hanging Car Diffuser', 'Artisan Car Fragrance', 'Midnight Eau de Parfum', 'Artisan Scent Discovery Set', 'Rouge Eau de Parfum', 'Azure Eau de Parfum', 'Violet Eau de Parfum', 'Miniature Scent Collection', 'Signature Fragrance Wardrobe', 'Noir Eau de Parfum', 'Botanical Car Diffuser'];
-const scentProducts: Product[] = productPhotos.scents.map((image, i) => ({ name: scentNames[i] ?? `Artisan Scent ${i + 1}`, image, category: i === 0 || i === 1 || i === 10 ? 'Car fragrance' : 'Artisan Scent', group: i === 0 || i === 1 || i === 10 ? 'car-perfumes' : 'artisan-scent', notes: i === 0 || i === 1 || i === 10 ? 'A refined fragrance for everyday journeys' : 'A distinctive composition from our fragrance collection' }));
+const scentNames = ['Frosted Pear Hanging Diffuser', 'Artisan Car Fragrance Trio', 'Midnight Eau de Parfum', 'Artisan Scent Discovery Set', 'Rouge Eau de Parfum', 'Azure Eau de Parfum', 'Violet Eau de Parfum', 'Miniature Scent Collection', 'Signature Fragrance Wardrobe', 'Noir Eau de Parfum', 'Botanical Jade Car Diffuser'];
+const scentProducts: Product[] = productPhotos.scents.map((image, i) => {
+  const isCar = i === 0 || i === 1 || i === 10;
+  return {
+    name: scentNames[i] ?? `Artisan Scent ${i + 1}`,
+    image,
+    category: isCar ? 'Car fragrance' : 'Artisan Scent',
+    group: (isCar ? 'car-perfumes' : 'artisan-scent') as ProductGroup,
+    notes: isCar
+      ? (i === 0
+          ? 'Vanilla Blossom · Sweet Amber · Warm Timber'
+          : i === 1
+          ? 'Woody Oud · Spiced Cedar · Citrus Amber'
+          : 'Crisp Green Apple · Bergamot · Herbal Mint')
+      : 'A distinctive composition from our fragrance collection',
+    price: isCar ? (i === 0 ? 399 : i === 1 ? 549 : 429) : undefined,
+  };
+});
 export const artisanScents = scentProducts.filter(product => product.group === 'artisan-scent');
 export const carPerfumes = scentProducts.filter(product => product.group === 'car-perfumes');
 export const soaps: Product[] = productPhotos.soaps.map((image, i) => ({ name: i === 0 ? 'Artisan Soap Discovery Collection' : 'Artisan Soap Gift Collection', image, category: 'Handcrafted soap', group: 'soaps', notes: 'Colourful handcrafted soaps for a fragrant daily ritual' }));
