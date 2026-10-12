@@ -50,17 +50,16 @@ export function ProductCard({
 }) {
   const { add, inspect } = useShop();
   return (
-    <LuxuryTiltCard maxTilt={7} scale={1.02} glare={true}>
+    <LuxuryTiltCard maxTilt={6} scale={1.02} glare={true}>
       <article className="product-card">
         <div className="product-photo">
-          <Button
-            className="image-open"
-            variant="ghost"
-            onClick={() => inspect(product)}
-            aria-label={`View ${product.name}`}
+          <Link
+            to={`/product/${product.slug}`}
+            className="product-card-image-link"
+            aria-label={`View ${product.name} details`}
           >
             <img src={product.image} alt={product.name} loading="lazy" />
-          </Button>
+          </Link>
           {badge && <span className="product-badge">{badge}</span>}
           <Button
             variant="ghost"
@@ -68,14 +67,20 @@ export function ProductCard({
             size="icon"
             title="Add to enquiry"
             aria-label={`Add ${product.name} to enquiry`}
-            onClick={() => add(product)}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              add(product);
+            }}
           >
             <Plus />
           </Button>
         </div>
         <div className="product-meta">
           <span>{product.category}</span>
-          <h3>{product.name}</h3>
+          <Link to={`/product/${product.slug}`} className="product-title-link">
+            <h3>{product.name}</h3>
+          </Link>
           <p>{product.notes}</p>
           <div className="product-price">
             {product.price ? (
@@ -312,10 +317,10 @@ export function HomePage() {
         ))}
       </div>
 
-      <section className="section">
+      <section className="section home-categories-section">
         <div className="section-heading">
           <div>
-            <span className="eyebrow">SHOP THE COLLECTION</span>
+            <span className="eyebrow">THE 5 SIGNATURE FAMILIES</span>
             <h2>Made to be remembered.</h2>
           </div>
           <Button variant="editorial" asChild>
@@ -324,7 +329,44 @@ export function HomePage() {
             </Link>
           </Button>
         </div>
-        <ProductCatalogue limit={8} />
+
+        <div className="category-grid collection-families home-category-grid">
+          {categories.map((c, idx) => (
+            <LuxuryTiltCard key={c.path} maxTilt={6} scale={1.02} glare={true}>
+              <article className="category-tile home-category-tile">
+                <Link to={c.path} className="category-tile-link">
+                  <div className="category-image-wrap">
+                    <img src={c.image} alt={c.name} loading="lazy" />
+                    <span className="category-index-badge">0{idx + 1}</span>
+                    <span className="category-hover-pill">
+                      Explore Edition <ArrowUpRight size={13} />
+                    </span>
+                  </div>
+                </Link>
+                <div className="category-tile-body">
+                  <span className="category-sub-eyebrow">
+                    {idx === 0
+                      ? 'STEAM DISTILLED'
+                      : idx === 1
+                      ? 'HAUTE PARFUMERIE'
+                      : idx === 2
+                      ? 'SACRED RITUALS'
+                      : idx === 3
+                      ? 'ARTISANAL CARE'
+                      : 'CABIN DIFFUSION'}
+                  </span>
+                  <h2>{c.name}</h2>
+                  <p>{c.text}</p>
+                  <Button asChild variant="editorial" className="category-tile-cta">
+                    <Link to={c.path}>
+                      Discover the collection <ArrowUpRight />
+                    </Link>
+                  </Button>
+                </div>
+              </article>
+            </LuxuryTiltCard>
+          ))}
+        </div>
       </section>
 
       <section className="fact-band">
