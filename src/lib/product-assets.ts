@@ -10,6 +10,7 @@ export const productPhotos = {
     'oil-patchouli.png',
     'oil-citronella.png',
     'oil-palmarosa.png',
+    'oil-menthol.png',
   ].map(productImage),
   scents: [
     'artisan-scent-01.webp',
