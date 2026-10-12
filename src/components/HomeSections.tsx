@@ -6,6 +6,7 @@ import {
   Leaf,
   ShieldCheck,
   ArrowUpRight,
+  ArrowRight,
   Clock,
   Compass,
   Award,
