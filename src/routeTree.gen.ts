@@ -14,9 +14,9 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as CarPerfumesRouteImport } from './routes/car-perfumes'
 import { Route as CollectionsRouteImport } from './routes/collections'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as EssenceOilsRouteImport } from './routes/essence-oils'
 import { Route as ExhibitionsRouteImport } from './routes/exhibitions'
 import { Route as IncenseRouteImport } from './routes/incense'
+import { Route as KeomcRouteImport } from './routes/keomc'
 import { Route as OilsRouteImport } from './routes/oils'
 import { Route as PerfumesRouteImport } from './routes/perfumes'
 import { Route as PrivacyRouteImport } from './routes/privacy'
@@ -51,11 +51,6 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const EssenceOilsRoute = EssenceOilsRouteImport.update({
-  id: '/essence-oils',
-  path: '/essence-oils',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ExhibitionsRoute = ExhibitionsRouteImport.update({
   id: '/exhibitions',
   path: '/exhibitions',
@@ -64,6 +59,11 @@ const ExhibitionsRoute = ExhibitionsRouteImport.update({
 const IncenseRoute = IncenseRouteImport.update({
   id: '/incense',
   path: '/incense',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KeomcRoute = KeomcRouteImport.update({
+  id: '/keomc',
+  path: '/keomc',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OilsRoute = OilsRouteImport.update({
@@ -113,9 +113,9 @@ export interface FileRoutesByFullPath {
   '/car-perfumes': typeof CarPerfumesRoute
   '/collections': typeof CollectionsRoute
   '/contact': typeof ContactRoute
-  '/essence-oils': typeof EssenceOilsRoute
   '/exhibitions': typeof ExhibitionsRoute
   '/incense': typeof IncenseRoute
+  '/keomc': typeof KeomcRoute
   '/oils': typeof OilsRoute
   '/perfumes': typeof PerfumesRoute
   '/privacy': typeof PrivacyRoute
@@ -131,9 +131,9 @@ export interface FileRoutesByTo {
   '/car-perfumes': typeof CarPerfumesRoute
   '/collections': typeof CollectionsRoute
   '/contact': typeof ContactRoute
-  '/essence-oils': typeof EssenceOilsRoute
   '/exhibitions': typeof ExhibitionsRoute
   '/incense': typeof IncenseRoute
+  '/keomc': typeof KeomcRoute
   '/oils': typeof OilsRoute
   '/perfumes': typeof PerfumesRoute
   '/privacy': typeof PrivacyRoute
@@ -150,9 +150,9 @@ export interface FileRoutesById {
   '/car-perfumes': typeof CarPerfumesRoute
   '/collections': typeof CollectionsRoute
   '/contact': typeof ContactRoute
-  '/essence-oils': typeof EssenceOilsRoute
   '/exhibitions': typeof ExhibitionsRoute
   '/incense': typeof IncenseRoute
+  '/keomc': typeof KeomcRoute
   '/oils': typeof OilsRoute
   '/perfumes': typeof PerfumesRoute
   '/privacy': typeof PrivacyRoute
@@ -170,9 +170,9 @@ export interface FileRouteTypes {
     | '/car-perfumes'
     | '/collections'
     | '/contact'
-    | '/essence-oils'
     | '/exhibitions'
     | '/incense'
+    | '/keomc'
     | '/oils'
     | '/perfumes'
     | '/privacy'
@@ -188,9 +188,9 @@ export interface FileRouteTypes {
     | '/car-perfumes'
     | '/collections'
     | '/contact'
-    | '/essence-oils'
     | '/exhibitions'
     | '/incense'
+    | '/keomc'
     | '/oils'
     | '/perfumes'
     | '/privacy'
@@ -206,9 +206,9 @@ export interface FileRouteTypes {
     | '/car-perfumes'
     | '/collections'
     | '/contact'
-    | '/essence-oils'
     | '/exhibitions'
     | '/incense'
+    | '/keomc'
     | '/oils'
     | '/perfumes'
     | '/privacy'
@@ -225,9 +225,9 @@ export interface RootRouteChildren {
   CarPerfumesRoute: typeof CarPerfumesRoute
   CollectionsRoute: typeof CollectionsRoute
   ContactRoute: typeof ContactRoute
-  EssenceOilsRoute: typeof EssenceOilsRoute
   ExhibitionsRoute: typeof ExhibitionsRoute
   IncenseRoute: typeof IncenseRoute
+  KeomcRoute: typeof KeomcRoute
   OilsRoute: typeof OilsRoute
   PerfumesRoute: typeof PerfumesRoute
   PrivacyRoute: typeof PrivacyRoute
@@ -275,13 +275,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/essence-oils': {
-      id: '/essence-oils'
-      path: '/essence-oils'
-      fullPath: '/essence-oils'
-      preLoaderRoute: typeof EssenceOilsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/exhibitions': {
       id: '/exhibitions'
       path: '/exhibitions'
@@ -294,6 +287,13 @@ declare module '@tanstack/react-router' {
       path: '/incense'
       fullPath: '/incense'
       preLoaderRoute: typeof IncenseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/keomc': {
+      id: '/keomc'
+      path: '/keomc'
+      fullPath: '/keomc'
+      preLoaderRoute: typeof KeomcRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/oils': {
@@ -361,9 +361,9 @@ const rootRouteChildren: RootRouteChildren = {
   CarPerfumesRoute: CarPerfumesRoute,
   CollectionsRoute: CollectionsRoute,
   ContactRoute: ContactRoute,
-  EssenceOilsRoute: EssenceOilsRoute,
   ExhibitionsRoute: ExhibitionsRoute,
   IncenseRoute: IncenseRoute,
+  KeomcRoute: KeomcRoute,
   OilsRoute: OilsRoute,
   PerfumesRoute: PerfumesRoute,
   PrivacyRoute: PrivacyRoute,

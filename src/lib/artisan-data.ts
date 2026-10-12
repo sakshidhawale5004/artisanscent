@@ -7,7 +7,6 @@ export const categories = [
   { name: 'Soaps', short: 'Soaps', path: '/soaps' as const, image: productPhotos.soaps[0], text: 'Refreshing, sensory fragrance designed to complement everyday personal-care routines.' },
 ];
 export const additionalCategories = [
-  { name: 'Essence oils', short: 'Essence oils', path: '/essence-oils' as const, image: productPhotos.oils[1], text: 'Versatile fragrance oils with floral, woody, fresh and oriental-inspired aromatic profiles.' },
   { name: 'Car perfumes', short: 'Car perfumes', path: '/car-perfumes' as const, image: productPhotos.scents[0], text: 'Compact, stylish diffuser formats with fresh, woody and sophisticated fragrance options.' },
 ];
 export type ProductGroup = 'oils' | 'artisan-scent' | 'soaps' | 'agarbatti' | 'car-perfumes';
