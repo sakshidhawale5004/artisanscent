@@ -20,8 +20,18 @@ import {
 import { photos } from '@/lib/artisan-assets';
 import { LuxuryPageHero } from './LuxuryPageHero';
 import { LuxuryTiltCard } from './LuxuryTiltCard';
+import {
+  TerroirStandardsStrip,
+  InteractiveScentPyramid,
+  DistillationCraftJourney,
+  SpotlightConnoisseurCreations,
+  CommercialWholesaleBanner,
+  ScentingRitualEditorial,
+  ConnoisseurTestimonials,
+  BrandFAQSection,
+} from './HomeSections';
 
-const heroVideoUrl = '/assets/video/scent.mp4';
+const heroVideoUrl = '/assets/video/herosectionvideo.mp4';
 
 export function PageHeading({
   title,
@@ -281,6 +291,14 @@ export function HomePage() {
             </Link>
           </Button>
         </div>
+
+        {/* Golden Artisan Emblem Badge */}
+        <div className="hero-seal-badge" aria-label="Artisan Scent Emblem">
+          <div className="hero-seal-badge-inner">
+            <span className="hero-seal-symbol">✱</span>
+          </div>
+        </div>
+
         <div className="hero-foot">
           <span>ROOTED IN NATURE. CRAFTED IN INDIA.</span>
           <div className="hero-foot-right">
@@ -316,6 +334,9 @@ export function HomePage() {
           </Link>
         ))}
       </div>
+
+      {/* 01. Terroir & Standards Strip */}
+      <TerroirStandardsStrip />
 
       <section className="section home-categories-section">
         <div className="section-heading">
@@ -369,6 +390,9 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* 02. Interactive Olfactory Notes Pyramid */}
+      <InteractiveScentPyramid />
+
       <section className="fact-band">
         <div>
           <strong>09</strong>
@@ -387,6 +411,12 @@ export function HomePage() {
           <span>Packaging available</span>
         </div>
       </section>
+
+      {/* 03. Soil to Flacon Distillation Journey */}
+      <DistillationCraftJourney />
+
+      {/* 04. Curated Masterpiece Icons */}
+      <SpotlightConnoisseurCreations />
 
       <section className="story-section">
         <img
@@ -412,6 +442,12 @@ export function HomePage() {
           </Button>
         </div>
       </section>
+
+      {/* 05. Commercial Wholesale & Sample Suite */}
+      <CommercialWholesaleBanner />
+
+      {/* 06. The Art of Scenting Ritual Editorial */}
+      <ScentingRitualEditorial />
 
       <section className="section">
         <div className="section-heading">
@@ -484,6 +520,12 @@ export function HomePage() {
         </div>
         <InteractiveSculpture />
       </section>
+
+      {/* 07. Connoisseur Reviews & Acclaims */}
+      <ConnoisseurTestimonials />
+
+      {/* 08. Curated Answers FAQ */}
+      <BrandFAQSection />
     </>
   );
 }

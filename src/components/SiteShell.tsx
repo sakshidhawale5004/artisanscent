@@ -4,6 +4,7 @@ import { Search, Menu, X, ArrowUpRight, ShoppingBag, Plus, Minus, ArrowRight, Sp
 import { Button } from './ui/button';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from './ui/dialog';
 import { allProducts, formatPrice, type Product } from '@/lib/artisan-data';
+import { BrandLoader } from './BrandLoader';
 
 const logoUrl = '/assets/brand/logo.jpeg';
 const ScentScene = lazy(() => import('./ScentScene'));
@@ -41,13 +42,6 @@ export function SiteShell({ children }: { children: ReactNode }) {
 
   const path = useRouterState({ select: (s) => s.location.pathname });
 
-  useEffect(() => {
-    const timer = setTimeout(
-      () => setLoading(false),
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 100 : 1100
-    );
-    return () => clearTimeout(timer);
-  }, []);
 
   useEffect(() => {
     setMenu(false);
@@ -108,17 +102,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
         aria-hidden="true"
       />
 
-      {loading && (
-        <div className="brand-loader" aria-label="Loading Artisan Scent">
-          <div className="loader-rings">
-            <i />
-            <i />
-            <i />
-          </div>
-          <span>ARTISAN SCENT</span>
-          <small>A world of quiet luxury awaits</small>
-        </div>
-      )}
+      {loading && <BrandLoader onComplete={() => setLoading(false)} />}
 
       <div className="announcement">
         <span>BOTANICAL ROOTS · EXTRAORDINARY SCENTS</span>
