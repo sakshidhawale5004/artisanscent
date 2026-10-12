@@ -1,0 +1,14 @@
+# Artisan Scent
+- [x] Update main navigation and footer product links, remove the essential-oils page, correct the four collection tiles, and separate car perfume products.
+- [x] Build luxury homepage with supplied video and branded favicon.
+- [x] Create 15 pages including collections, story, project sites, exhibitions, services, wholesale, contact and policies.
+- [x] Add supplied imagery and real product information.
+- [x] Add 3D motion loading and interactive visual experience.
+- [x] Verify pages, images, video and navigation.
+- [x] Add all newly supplied products with Oils, Artisan Scent, Soaps and Agarbatti filters.
+- [x] Expand page information and update the homepage product presentation.
+- [x] Remove the two owner-identified exhibition photographs.
+- [x] Rename the website to Artisan Scent.
+- [x] Add the supplied company, category and product-check information across the relevant pages.
+- [ ] Approve final privacy, return and terms policies — awaiting owner/legal approval of draft text.
+- [ ] Upload original video to GitHub — blocked until project GitHub connection is supplied.
