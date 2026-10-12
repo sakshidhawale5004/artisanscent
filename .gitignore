@@ -20,6 +20,9 @@ dist-ssr
 .wrangler/
 .dev.vars
 
+# Source media library (local working files — not deployed)
+source-media/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
