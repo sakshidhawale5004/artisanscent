@@ -257,18 +257,11 @@ export function HomePage() {
   return (
     <>
       <section className="home-hero">
-        <video
+        <img
           className="hero-video"
-          ref={ref}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          aria-label="Artisan Scent luxury film"
-        >
-          <source src={heroVideoUrl} type="video/mp4" />
-        </video>
+          src="/assets/hero image.png"
+          alt="Artisan Scent luxury perfume collection with crystalline bottle and botanical essence"
+        />
         <div className="hero-shade" />
         <div className="hero-content">
           <span className="eyebrow">NATURE’S ESSENCE. AN ARTISAN’S TOUCH.</span>
@@ -303,24 +296,6 @@ export function HomePage() {
           <span>ROOTED IN NATURE. CRAFTED IN INDIA.</span>
           <div className="hero-foot-right">
             <span>THE ART OF FRAGRANCE</span>
-            <Button
-              className="video-toggle"
-              variant="ghost"
-              size="icon"
-              aria-label={paused ? 'Play hero video' : 'Pause hero video'}
-              onClick={() => {
-                if (!ref.current) return;
-                if (paused) {
-                  void ref.current.play();
-                  setPaused(false);
-                } else {
-                  ref.current.pause();
-                  setPaused(true);
-                }
-              }}
-            >
-              {paused ? <Play size={12} /> : <Pause size={12} />}
-            </Button>
             <ArrowDown size={15} />
           </div>
         </div>
