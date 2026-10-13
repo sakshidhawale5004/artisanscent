@@ -22,188 +22,205 @@ export function BrandLoader({ onComplete }: { onComplete: () => void }) {
 
   return (
     <div
-      className={`luxury-brand-loader-premium ${isFading ? 'luxury-loader-fade-out' : ''}`}
+      className={`luxury-brand-loader-3d ${isFading ? 'luxury-loader-fade-out' : ''}`}
       role="status"
       aria-live="polite"
       aria-label="Loading Artisan Scent"
     >
-      {/* Layered backdrop with multiple glows */}
+      {/* Layered backdrop */}
       <div className="loader-bg-layer-1" aria-hidden="true" />
       <div className="loader-bg-layer-2" aria-hidden="true" />
-      <div className="loader-bg-layer-3" aria-hidden="true" />
 
-      <div className="loader-center-stage">
-        {/* Outer hexagon ring */}
-        <svg className="loader-hexagon-outer" viewBox="0 0 400 400" aria-hidden="true">
-          <defs>
-            <linearGradient id="hexGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#d4af37" />
-              <stop offset="50%" stopColor="#f3e5ab" />
-              <stop offset="100%" stopColor="#aa7c11" />
-            </linearGradient>
-          </defs>
-          <polygon
-            points="200,50 350,125 350,275 200,350 50,275 50,125"
-            fill="none"
-            stroke="url(#hexGrad1)"
-            strokeWidth="1.5"
-            opacity="0.6"
-          />
-        </svg>
+      <div className="loader-3d-stage">
+        {/* 360 rotation indicator */}
+        <div className="rotation-indicator" aria-hidden="true">360°</div>
 
-        {/* Inner circle rings */}
-        <div className="loader-circle-1" aria-hidden="true" />
-        <div className="loader-circle-2" aria-hidden="true" />
-        <div className="loader-circle-3" aria-hidden="true" />
+        {/* 3D Container with perspective */}
+        <div className="bottle-3d-container">
+          <svg
+            className="perfume-bottle-3d-faceted"
+            viewBox="0 0 280 380"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <defs>
+              {/* Faceted crystal glass gradients */}
+              <linearGradient id="facet1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#e8d7f8" />
+                <stop offset="50%" stopColor="#d4b5f0" />
+                <stop offset="100%" stopColor="#c99be8" />
+              </linearGradient>
 
-        {/* Ultra-premium perfume bottle */}
-        <svg
-          className="perfume-bottle-ultra"
-          viewBox="0 0 240 420"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-        >
-          <defs>
-            {/* Complex glass gradients */}
-            <linearGradient id="bottleBody" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#f9f7f3" />
-              <stop offset="30%" stopColor="#ffffff" />
-              <stop offset="50%" stopColor="#faf8f5" />
-              <stop offset="70%" stopColor="#f5f2ed" />
-              <stop offset="100%" stopColor="#ede8e0" />
-            </linearGradient>
+              <linearGradient id="facet2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#d4b5f0" />
+                <stop offset="50%" stopColor="#b89ee0" />
+                <stop offset="100%" stopColor="#a885d8" />
+              </linearGradient>
 
-            <linearGradient id="capMetal" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#424242" />
-              <stop offset="30%" stopColor="#1a1a1a" />
-              <stop offset="70%" stopColor="#0d0d0d" />
-              <stop offset="100%" stopColor="#000000" />
-            </linearGradient>
+              <linearGradient id="facet3" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#c99be8" />
+                <stop offset="50%" stopColor="#b383e0" />
+                <stop offset="100%" stopColor="#9d6bd8" />
+              </linearGradient>
 
-            <radialGradient id="liquidPremium" cx="40%" cy="30%" r="60%">
-              <stop offset="0%" stopColor="#fff8dc" />
-              <stop offset="40%" stopColor="#ffd700" />
-              <stop offset="80%" stopColor="#d4af37" />
-              <stop offset="100%" stopColor="#b8860b" />
-            </radialGradient>
+              <linearGradient id="lightFacet" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#f5e9ff" />
+                <stop offset="100%" stopColor="rgba(255,255,255,0.3)" />
+              </linearGradient>
 
-            <radialGradient id="bottleGloss" cx="20%" cy="20%" r="70%">
-              <stop offset="0%" stopColor="rgba(255,255,255,0.95)" />
-              <stop offset="20%" stopColor="rgba(255,255,255,0.5)" />
-              <stop offset="50%" stopColor="rgba(255,255,255,0.1)" />
-              <stop offset="100%" stopColor="rgba(255,255,255,0)" />
-            </radialGradient>
+              <linearGradient id="capGold" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#ffd700" />
+                <stop offset="50%" stopColor="#f0c874" />
+                <stop offset="100%" stopColor="#d4af37" />
+              </linearGradient>
 
-            <filter id="premiumShadow">
-              <feDropShadow dx="0" dy="8" stdDeviation="12" floodOpacity="0.25" />
-              <feDropShadow dx="0" dy="20" stdDeviation="40" floodOpacity="0.15" />
-            </filter>
-          </defs>
+              <radialGradient id="goldShine" cx="30%" cy="30%" r="60%">
+                <stop offset="0%" stopColor="#ffed4e" />
+                <stop offset="100%" stopColor="#c99be8" />
+              </radialGradient>
 
-          {/* Stopper/Cap */}
-          <g filter="url(#premiumShadow)">
-            <rect x="95" y="8" width="50" height="6" fill="url(#capMetal)" rx="1" />
-            <rect x="90" y="14" width="60" height="4" fill="#0a0a0a" rx="1" />
-            <ellipse cx="120" cy="14" rx="30" ry="2" fill="rgba(100,100,100,0.3)" />
-          </g>
+              <filter id="crystalShadow">
+                <feDropShadow dx="0" dy="20" stdDeviation="25" floodOpacity="0.2" />
+              </filter>
+            </defs>
 
-          {/* Neck Flange */}
-          <path
-            d="M 92 18 L 85 28 L 155 28 L 148 18 Z"
-            fill="url(#bottleBody)"
-            stroke="#e0dbd3"
-            strokeWidth="0.8"
-          />
-          <ellipse cx="120" cy="28" rx="35" ry="5" fill="url(#bottleBody)" opacity="0.7" />
+            {/* Gold cap */}
+            <g filter="url(#crystalShadow)">
+              <ellipse cx="140" cy="30" rx="22" ry="8" fill="url(#capGold)" />
+              <path d="M 118 30 Q 118 18 140 15 Q 162 18 162 30" fill="url(#capGold)" opacity="0.8" />
+              <circle cx="140" cy="25" r="3" fill="#ffed4e" opacity="0.6" />
+            </g>
 
-          {/* Main Bottle - Classic Pear Shape */}
-          <path
-            d="M 85 28 Q 70 70 68 140 Q 65 180 75 240 Q 85 290 120 310 Q 155 290 165 240 Q 175 180 172 140 Q 170 70 155 28 Z"
-            fill="url(#bottleBody)"
-            stroke="#e0dbd3"
-            strokeWidth="1.2"
-            opacity="0.95"
-            filter="url(#premiumShadow)"
-          />
+            {/* Bottle neck */}
+            <path
+              d="M 120 35 L 110 55 L 170 55 L 160 35 Z"
+              fill="url(#lightFacet)"
+              stroke="#d4b5f0"
+              strokeWidth="1.5"
+              opacity="0.9"
+            />
 
-          {/* Liquid Fill - Premium Gold */}
-          <defs>
-            <clipPath id="liquidContainer">
-              <path d="M 85 28 Q 70 70 68 140 Q 65 180 75 240 Q 85 290 120 310 Q 155 290 165 240 Q 175 180 172 140 Q 170 70 155 28 Z" />
-            </clipPath>
-          </defs>
+            {/* Main crystal bottle - faceted geometric design */}
+            
+            {/* Front top facet */}
+            <polygon
+              points="110,55 140,45 170,55 155,75 125,75"
+              fill="url(#facet1)"
+              stroke="#b89ee0"
+              strokeWidth="1"
+              opacity="0.95"
+            />
 
-          <rect
-            x="60"
-            y="180"
-            width="120"
-            height="140"
-            fill="url(#liquidPremium)"
-            clipPath="url(#liquidContainer)"
-            opacity="0.92"
-          />
+            {/* Left front facet */}
+            <polygon
+              points="95,75 125,75 120,130 90,120"
+              fill="url(#facet2)"
+              stroke="#a885d8"
+              strokeWidth="1"
+              opacity="0.9"
+            />
 
-          {/* Liquid surface shimmer */}
-          <ellipse
-            cx="120"
-            cy="180"
-            rx="28"
-            ry="8"
-            fill="rgba(255,255,255,0.3)"
-            clipPath="url(#liquidContainer)"
-            opacity="0.8"
-          />
+            {/* Right front facet */}
+            <polygon
+              points="155,75 185,75 190,120 160,130"
+              fill="url(#facet1)"
+              stroke="#b89ee0"
+              strokeWidth="1"
+              opacity="0.95"
+            />
 
-          {/* Main Glass Reflection - Left Side */}
-          <ellipse
-            cx="90"
-            cy="90"
-            rx="16"
-            ry="70"
-            fill="url(#bottleGloss)"
-            opacity="0.85"
-            style={{ mixBlendMode: 'screen' }}
-          />
+            {/* Center front large facet */}
+            <polygon
+              points="125,75 155,75 160,130 120,130"
+              fill="url(#facet3)"
+              stroke="#9d6bd8"
+              strokeWidth="1"
+              opacity="0.92"
+            />
 
-          {/* Secondary Reflection - Right Side */}
-          <ellipse
-            cx="145"
-            cy="120"
-            rx="10"
-            ry="50"
-            fill="rgba(255,255,255,0.4)"
-            opacity="0.6"
-            style={{ mixBlendMode: 'screen' }}
-          />
+            {/* Left side facet */}
+            <polygon
+              points="90,120 120,130 115,190 85,180"
+              fill="url(#facet2)"
+              stroke="#a885d8"
+              strokeWidth="1"
+              opacity="0.88"
+            />
 
-          {/* Neck Highlight */}
-          <ellipse cx="120" cy="22" rx="12" ry="3" fill="rgba(255,255,255,0.7)" opacity="0.8" />
+            {/* Right side facet */}
+            <polygon
+              points="160,130 190,120 195,180 165,190"
+              fill="url(#facet1)"
+              stroke="#b89ee0"
+              strokeWidth="1"
+              opacity="0.88"
+            />
 
-          {/* Bottom Indent Shadow */}
-          <ellipse cx="120" cy="308" rx="32" ry="6" fill="rgba(0,0,0,0.15)" opacity="0.4" />
+            {/* Bottom left facet */}
+            <polygon
+              points="85,180 115,190 110,280 80,270"
+              fill="url(#lightFacet)"
+              stroke="#d4b5f0"
+              strokeWidth="1"
+              opacity="0.85"
+            />
 
-          {/* Center Bottom Dot */}
-          <circle cx="120" cy="312" r="1" fill="#aa7c11" opacity="0.8" />
-        </svg>
+            {/* Bottom right facet */}
+            <polygon
+              points="165,190 195,180 200,270 170,280"
+              fill="url(#facet2)"
+              stroke="#a885d8"
+              strokeWidth="1"
+              opacity="0.85"
+            />
 
-        {/* Floating particles orbiting bottle */}
-        <div className="particle-system" aria-hidden="true">
-          <div className="orbit-particle op-1" />
-          <div className="orbit-particle op-2" />
-          <div className="orbit-particle op-3" />
-          <div className="orbit-particle op-4" />
-          <div className="orbit-particle op-5" />
-          <div className="orbit-particle op-6" />
+            {/* Bottom center facet */}
+            <polygon
+              points="110,280 115,190 165,190 170,280"
+              fill="url(#facet3)"
+              stroke="#9d6bd8"
+              strokeWidth="1"
+              opacity="0.9"
+            />
+
+            {/* Bottom base */}
+            <ellipse cx="140" cy="285" rx="35" ry="12" fill="url(#facet2)" opacity="0.7" />
+
+            {/* Light reflection on facets */}
+            <polygon
+              points="125,75 140,60 150,75 140,85"
+              fill="url(#lightFacet)"
+              opacity="0.8"
+            />
+
+            {/* Shimmer effect */}
+            <ellipse cx="125" cy="120" rx="8" ry="25" fill="#ffffff" opacity="0.4" />
+
+            {/* Center light beam */}
+            <path
+              d="M 140 80 Q 142 150 138 270"
+              stroke="#ffffff"
+              strokeWidth="2"
+              opacity="0.3"
+              fill="none"
+            />
+          </svg>
+
+          {/* Rotating rings around bottle */}
+          <div className="bottle-ring-1" aria-hidden="true" />
+          <div className="bottle-ring-2" aria-hidden="true" />
+
+          {/* Floating particles */}
+          <div class="bottle-particles" aria-hidden="true">
+            <div class="crystal-particle p1" />
+            <div class="crystal-particle p2" />
+            <div class="crystal-particle p3" />
+            <div class="crystal-particle p4" />
+          </div>
         </div>
 
-        {/* Pulsing aura layers */}
-        <div className="aura-layer aura-1" aria-hidden="true" />
-        <div className="aura-layer aura-2" aria-hidden="true" />
-        <div className="aura-layer aura-3" aria-hidden="true" />
-
-        {/* Shimmer effect lines */}
-        <div className="shimmer-line shimmer-1" aria-hidden="true" />
-        <div className="shimmer-line shimmer-2" aria-hidden="true" />
+        {/* Pulsing glow */}
+        <div class="bottle-glow-pulse" aria-hidden="true" />
       </div>
     </div>
   );
