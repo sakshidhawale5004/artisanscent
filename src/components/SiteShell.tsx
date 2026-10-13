@@ -12,6 +12,49 @@ type BagItem = { product: Product; quantity: number };
 const ShopContext = createContext<{ add: (product: Product) => void; inspect: (product: Product) => void }>({ add: () => {}, inspect: () => {} });
 export const useShop = () => useContext(ShopContext);
 
+export type LuxuryTheme = 'alabaster' | 'rose-champagne' | 'golden-amber';
+
+export interface ThemeOption {
+  id: LuxuryTheme;
+  name: string;
+  palette: string;
+  dot: string;
+  description: string;
+}
+
+export const LUXURY_THEMES: ThemeOption[] = [
+  {
+    id: 'alabaster',
+    name: 'Alabaster & Gold',
+    palette: 'Ivory & Gold',
+    dot: '#d4af37',
+    description: 'Crisp royal ivory with lustrous warm gold accents.',
+  },
+  {
+    id: 'rose-champagne',
+    name: 'Rose Champagne',
+    palette: 'Blush & Rose Gold',
+    dot: '#c9826d',
+    description: 'Romantic blush pink nuances with delicate rose gold sheen.',
+  },
+  {
+    id: 'golden-amber',
+    name: 'Golden Amber',
+    palette: 'Honey & Amber',
+    dot: '#c49320',
+    description: 'Warm honeyed alabaster and sun-drenched resinous amber.',
+  },
+];
+
+const ThemeContext = createContext<{
+  theme: LuxuryTheme;
+  setTheme: (theme: LuxuryTheme) => void;
+}>({
+  theme: 'alabaster',
+  setTheme: () => {},
+});
+export const useTheme = () => useContext(ThemeContext);
+
 const nav = [
   { label: 'About', path: '/about' as const },
   { label: 'KEOMC', path: '/keomc' as const },
@@ -40,7 +83,28 @@ export function SiteShell({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [cursorPos, setCursorPos] = useState({ x: -200, y: -200 });
 
+  const [theme, setTheme] = useState<LuxuryTheme>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('artisan-scent-theme') as LuxuryTheme | null;
+      if (saved && (saved === 'alabaster' || saved === 'rose-champagne' || saved === 'golden-amber')) {
+        return saved;
+      }
+    }
+    return 'alabaster';
+  });
+  const [ambianceMenuOpen, setAmbianceMenuOpen] = useState(false);
+
   const path = useRouterState({ select: (s) => s.location.pathname });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    try {
+      localStorage.setItem('artisan-scent-theme', theme);
+    } catch {
+      // safe fallback
+    }
+    window.dispatchEvent(new CustomEvent('artisan-theme-change', { detail: { theme } }));
+  }, [theme]);
 
 
   useEffect(() => {
@@ -92,7 +156,8 @@ export function SiteShell({ children }: { children: ReactNode }) {
     );
 
   return (
-    <ShopContext.Provider value={{ add, inspect: setProduct }}>
+    <ThemeContext.Provider value={{ theme, setTheme }}>
+      <ShopContext.Provider value={{ add, inspect: setProduct }}>
       {/* Luxury Golden Cursor Aura */}
       <div
         className="luxury-cursor-aura"
@@ -135,6 +200,57 @@ export function SiteShell({ children }: { children: ReactNode }) {
           ))}
         </nav>
         <div className="header-tools">
+          {/* Scent Ambiance Theme Transition Selector */}
+          <div className="ambiance-selector-wrapper">
+            <button
+              type="button"
+              className="ambiance-trigger-btn"
+              onClick={() => setAmbianceMenuOpen(!ambianceMenuOpen)}
+              aria-label="Select Scent Ambiance Theme"
+              title="Select Scent Ambiance Theme"
+            >
+              <Sparkles size={13} className="ambiance-sparkle" />
+              <span className="ambiance-current-name">
+                {LUXURY_THEMES.find((t) => t.id === theme)?.name.split(' ')[0] || 'Alabaster'}
+              </span>
+              <span
+                className="ambiance-current-dot"
+                style={{
+                  background: LUXURY_THEMES.find((t) => t.id === theme)?.dot || '#d4af37',
+                }}
+              />
+            </button>
+
+            {ambianceMenuOpen && (
+              <div className="ambiance-dropdown-card">
+                <div className="ambiance-card-header">
+                  <span className="ambiance-card-eyebrow">LIGHT SCENT PALETTE</span>
+                  <span className="ambiance-card-title">Transition Atmosphere</span>
+                </div>
+                <div className="ambiance-options-list">
+                  {LUXURY_THEMES.map((t) => (
+                    <button
+                      key={t.id}
+                      type="button"
+                      className={`ambiance-option-row ${theme === t.id ? 'active' : ''}`}
+                      onClick={() => {
+                        setTheme(t.id);
+                        setAmbianceMenuOpen(false);
+                      }}
+                    >
+                      <span className="ambiance-swatch" style={{ background: t.dot }} />
+                      <div className="ambiance-option-text">
+                        <strong>{t.name}</strong>
+                        <small>{t.description}</small>
+                      </div>
+                      {theme === t.id && <span className="ambiance-active-check">✦</span>}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
           <Button
             variant="ghost"
             size="icon"
@@ -230,13 +346,33 @@ export function SiteShell({ children }: { children: ReactNode }) {
       <Dialog open={menu} onOpenChange={setMenu}>
         <DialogContent className="menu-dialog">
           <DialogTitle>Artisan Scent</DialogTitle>
-          <DialogDescription>Explore our world of fragrance.</DialogDescription>
           {nav.map((n) => (
             <Link key={n.path} to={n.path}>
               {n.label}
               <ArrowUpRight />
             </Link>
           ))}
+
+          {/* Mobile Ambiance Theme Switcher */}
+          <div className="mobile-ambiance-section">
+            <span className="mobile-ambiance-title">SCENT AMBIANCE PALETTE</span>
+            <div className="mobile-ambiance-buttons">
+              {LUXURY_THEMES.map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  className={`mobile-ambiance-btn ${theme === t.id ? 'active' : ''}`}
+                  onClick={() => {
+                    setTheme(t.id);
+                    setMenu(false);
+                  }}
+                >
+                  <span className="mobile-ambiance-dot" style={{ background: t.dot }} />
+                  <span>{t.name}</span>
+                </button>
+              ))}
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
 
@@ -437,6 +573,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
         </DialogContent>
       </Dialog>
     </ShopContext.Provider>
+    </ThemeContext.Provider>
   );
 }
 

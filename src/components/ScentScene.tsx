@@ -21,12 +21,34 @@ export default function ScentScene() {
   const [colors, setColors] = useState<string[]>([]);
   const [reduced, setReduced] = useState(false);
   useEffect(() => {
-    const style = getComputedStyle(document.documentElement);
-    const canvas = document.createElement('canvas'); canvas.width = 1; canvas.height = 1;
-    const context = canvas.getContext('2d');
-    if (!context) return;
-    setColors(['--sculpture-gold', '--sculpture-silver', '--sculpture-green'].map(token => { context.fillStyle = style.getPropertyValue(token).trim(); context.fillRect(0,0,1,1); const pixel = context.getImageData(0,0,1,1).data; return `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`; }));
+    const updateColors = () => {
+      const style = getComputedStyle(document.documentElement);
+      const canvas = document.createElement('canvas');
+      canvas.width = 1;
+      canvas.height = 1;
+      const context = canvas.getContext('2d');
+      if (!context) return;
+      setColors(
+        ['--sculpture-gold', '--sculpture-silver', '--sculpture-green'].map((token) => {
+          context.fillStyle = style.getPropertyValue(token).trim() || '#e6ca65';
+          context.fillRect(0, 0, 1, 1);
+          const pixel = context.getImageData(0, 0, 1, 1).data;
+          return `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
+        })
+      );
+    };
+
+    updateColors();
     setReduced(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+    window.addEventListener('artisan-theme-change', updateColors);
+    const observer = new MutationObserver(updateColors);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+    return () => {
+      window.removeEventListener('artisan-theme-change', updateColors);
+      observer.disconnect();
+    };
   }, []);
   if (!colors.length) return null;
   return <Canvas camera={{ position: [0, 0, 5.4], fov: 42 }} dpr={[1, 1.5]} gl={{ alpha: true }}>

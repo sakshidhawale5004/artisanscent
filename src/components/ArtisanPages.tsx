@@ -30,6 +30,7 @@ import {
   ConnoisseurTestimonials,
   BrandFAQSection,
 } from './HomeSections';
+import { AureaHeroSection } from './AureaHeroSection';
 
 const heroVideoUrl = '/assets/video/herosectionvideo.mp4';
 
@@ -244,62 +245,10 @@ function ProductCatalogue({ limit }: { limit?: number }) {
 }
 
 export function HomePage() {
-  const ref = useRef<HTMLVideoElement>(null);
-  const [paused, setPaused] = useState(false);
-
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      ref.current?.pause();
-      setPaused(true);
-    }
-  }, []);
-
   return (
     <>
-      <section className="home-hero">
-        <img
-          className="hero-video"
-          src="/assets/hero-image.png"
-          alt="Artisan Scent luxury perfume collection with crystalline bottle and botanical essence"
-        />
-        <div className="hero-shade" />
-        <div className="hero-content">
-          <span className="eyebrow">NATURE’S ESSENCE. AN ARTISAN’S TOUCH.</span>
-          <h1>
-            Artisan Scent
-            <em>
-              A world of
-              <br />
-              quiet luxury.
-            </em>
-          </h1>
-          <p>
-            From botanical essences to signature fragrances.
-            <br />
-            Discover the extraordinary in every drop.
-          </p>
-          <Button variant="luxury" asChild>
-            <Link to="/collections">
-              Explore the collection <ArrowUpRight />
-            </Link>
-          </Button>
-        </div>
-
-        {/* Golden Artisan Emblem Badge */}
-        <div className="hero-seal-badge" aria-label="Artisan Scent Emblem">
-          <div className="hero-seal-badge-inner">
-            <span className="hero-seal-symbol">✱</span>
-          </div>
-        </div>
-
-        <div className="hero-foot">
-          <span>ROOTED IN NATURE. CRAFTED IN INDIA.</span>
-          <div className="hero-foot-right">
-            <span>THE ART OF FRAGRANCE</span>
-            <ArrowDown size={15} />
-          </div>
-        </div>
-      </section>
+      {/* Nexila-Inspired Luxury Parfumerie Hero Experience */}
+      <AureaHeroSection />
 
       <div className="collection-ribbon">
         {categories.map((c, i) => (
