@@ -259,7 +259,7 @@ export function HomePage() {
       <section className="home-hero">
         <img
           className="hero-video"
-          src="/assets/hero%20image.png"
+          src="/assets/hero-image.png"
           alt="Artisan Scent luxury perfume collection with crystalline bottle and botanical essence"
         />
         <div className="hero-shade" />
