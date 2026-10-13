@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 
 export function BrandLoader({ onComplete }: { onComplete: () => void }) {
-  const [progress, setProgress] = useState(0);
-  const [stage, setStage] = useState('Sourcing Rare Botanicals...');
   const [isFading, setIsFading] = useState(false);
 
   useEffect(() => {
@@ -12,44 +10,15 @@ export function BrandLoader({ onComplete }: { onComplete: () => void }) {
       return;
     }
 
-    const stages = [
-      { at: 0, text: 'Sourcing Rare Botanicals...' },
-      { at: 35, text: 'Gentle Steam Distillation...' },
-      { at: 70, text: 'Refining Olfactory Accords...' },
-      { at: 92, text: 'A World of Quiet Luxury' },
-    ];
+    const timeout = setTimeout(() => {
+      setIsFading(true);
+      const fadeTimeout = setTimeout(() => {
+        onComplete();
+      }, 800);
+      return () => clearTimeout(fadeTimeout);
+    }, 2200);
 
-    const startTime = performance.now();
-    const duration = 1600; // 1.6s smooth duration
-
-    let animId: number;
-
-    const tick = (now: number) => {
-      const elapsed = now - startTime;
-      const pct = Math.min(100, Math.round((elapsed / duration) * 100));
-      setProgress(pct);
-
-      for (let i = stages.length - 1; i >= 0; i--) {
-        if (pct >= stages[i].at) {
-          setStage(stages[i].text);
-          break;
-        }
-      }
-
-      if (pct < 100) {
-        animId = requestAnimationFrame(tick);
-      } else {
-        // Start smooth fade out
-        setIsFading(true);
-        const timeout = setTimeout(() => {
-          onComplete();
-        }, 750); // fade out duration
-        return () => clearTimeout(timeout);
-      }
-    };
-
-    animId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(animId);
+    return () => clearTimeout(timeout);
   }, [onComplete]);
 
   return (
@@ -61,111 +30,90 @@ export function BrandLoader({ onComplete }: { onComplete: () => void }) {
     >
       <div className="loader-backdrop-glow" aria-hidden="true" />
 
-      <div className="loader-crest-container">
-        {/* Animated Golden Luxury Seal */}
-        <div className="loader-seal-wrapper">
-          <svg
-            className="loader-seal-svg"
-            viewBox="0 0 120 120"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-          >
-            <defs>
-              <linearGradient id="goldSheen" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#d4af37" />
-                <stop offset="50%" stopColor="#f3e5ab" />
-                <stop offset="100%" stopColor="#aa7c11" />
-              </linearGradient>
-              <radialGradient id="auraGlow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="rgba(212, 175, 55, 0.25)" />
-                <stop offset="100%" stopColor="rgba(212, 175, 55, 0)" />
-              </radialGradient>
-            </defs>
+      <div className="loader-perfume-container">
+        <svg
+          className="perfume-bottle-3d"
+          viewBox="0 0 200 300"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient id="bottleGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#f7f5f0" />
+              <stop offset="50%" stopColor="#ffffff" />
+              <stop offset="100%" stopColor="#e8e4da" />
+            </linearGradient>
+            <linearGradient id="liquidGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#d4af37" />
+              <stop offset="50%" stopColor="#f3e5ab" />
+              <stop offset="100%" stopColor="#aa7c11" />
+            </linearGradient>
+            <linearGradient id="capGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#2d2d2d" />
+              <stop offset="50%" stopColor="#1a1a1a" />
+              <stop offset="100%" stopColor="#0d0d0d" />
+            </linearGradient>
+            <filter id="gloss">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
+            </filter>
+            <radialGradient id="shine" cx="35%" cy="35%" r="50%">
+              <stop offset="0%" stopColor="rgba(255,255,255,0.6)" />
+              <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+            </radialGradient>
+          </defs>
 
-            {/* Glowing Center Halo */}
-            <circle cx="60" cy="60" r="48" fill="url(#auraGlow)" />
+          {/* Bottle Cap - Luxury Flat Top */}
+          <rect x="75" y="18" width="50" height="8" fill="url(#capGradient)" rx="2" />
+          <rect x="72" y="26" width="56" height="6" fill="#1a1a1a" rx="1" />
 
-            {/* Outer Slow Orbiting Dashed Ring */}
-            <circle
-              className="loader-ring-outer"
-              cx="60"
-              cy="60"
-              r="52"
-              stroke="url(#goldSheen)"
-              strokeWidth="1"
-              strokeDasharray="4 6"
-              opacity="0.6"
-            />
+          {/* Bottle Neck - Elegant Taper */}
+          <path
+            d="M 80 32 L 75 50 L 125 50 L 120 32 Z"
+            fill="url(#bottleGradient)"
+            stroke="#d4d0c8"
+            strokeWidth="0.8"
+          />
 
-            {/* Middle Fine Ring */}
-            <circle
-              className="loader-ring-mid"
-              cx="60"
-              cy="60"
-              r="44"
-              stroke="url(#goldSheen)"
-              strokeWidth="1.2"
-              opacity="0.85"
-            />
+          {/* Main Bottle Body - Classic Perfume Shape */}
+          <ellipse cx="100" cy="65" rx="28" ry="8" fill="url(#bottleGradient)" opacity="0.9" />
+          <path
+            d="M 72 50 Q 60 100 65 160 Q 68 180 72 195 Q 100 210 128 195 Q 132 180 135 160 Q 140 100 128 50 Z"
+            fill="url(#bottleGradient)"
+            stroke="#d4d0c8"
+            strokeWidth="0.8"
+          />
 
-            {/* Inner Sacred Geometric Diamond */}
-            <rect
-              className="loader-diamond"
-              x="36"
-              y="36"
-              width="48"
-              height="48"
-              rx="2"
-              transform="rotate(45 60 60)"
-              stroke="url(#goldSheen)"
-              strokeWidth="1"
-              opacity="0.7"
-            />
+          {/* Liquid Inside - Gold Luxe */}
+          <defs>
+            <clipPath id="bottleClip">
+              <path d="M 72 50 Q 60 100 65 160 Q 68 180 72 195 Q 100 210 128 195 Q 132 180 135 160 Q 140 100 128 50 Z" />
+            </clipPath>
+          </defs>
+          <rect
+            x="60"
+            y="130"
+            width="80"
+            height="80"
+            fill="url(#liquidGradient)"
+            clipPath="url(#bottleClip)"
+            opacity="0.85"
+          />
 
-            {/* Central Botanical Scent Droplet Crest */}
-            <path
-              className="loader-droplet"
-              d="M60 38 C60 38 72 53 72 63 C72 70 66.5 75 60 75 C53.5 75 48 70 48 63 C48 53 60 38 60 38 Z"
-              stroke="url(#goldSheen)"
-              strokeWidth="1.6"
-              fill="rgba(212, 175, 55, 0.08)"
-            />
+          {/* Glossy Shine Effect on Bottle */}
+          <ellipse cx="85" cy="90" rx="12" ry="35" fill="url(#shine)" opacity="0.7" />
 
-            {/* Center Core Radiance */}
-            <circle cx="60" cy="63" r="3.5" fill="url(#goldSheen)" className="loader-core-pulse" />
-          </svg>
-        </div>
+          {/* Highlight on Neck */}
+          <ellipse cx="102" cy="40" rx="8" ry="4" fill="rgba(255,255,255,0.5)" />
 
-        {/* Brand Typographic Identity */}
-        <div className="loader-typography">
-          <span className="loader-eyebrow">HAUTE PARFUMERIE & BOTANIQUE</span>
-          <h1 className="loader-title">ARTISAN SCENT</h1>
-          <div className="loader-divider">
-            <span className="loader-divider-line" />
-            <span className="loader-divider-diamond">✦</span>
-            <span className="loader-divider-line" />
-          </div>
-          <span className="loader-subtitle">EST. KULSWAMI ESSENCE OIL CO.</span>
-        </div>
+          {/* Bottom Detail */}
+          <ellipse cx="100" cy="200" rx="30" ry="6" fill="#d4d0c8" opacity="0.4" />
 
-        {/* Elegant Progress Bar & Percentage */}
-        <div className="loader-progress-wrap">
-          <div className="loader-track">
-            <div
-              className="loader-bar"
-              style={{ width: `${progress}%` }}
-              role="progressbar"
-              aria-valuenow={progress}
-              aria-valuemin={0}
-              aria-valuemax={100}
-            />
-          </div>
-          <div className="loader-meta">
-            <span className="loader-stage-text">{stage}</span>
-            <span className="loader-pct">{progress}%</span>
-          </div>
-        </div>
+          {/* Decorative Bottom Mark */}
+          <circle cx="100" cy="205" r="2" fill="#aa7c11" opacity="0.8" />
+        </svg>
+
+        {/* Rotating Aura Ring */}
+        <div className="loader-aura-ring" aria-hidden="true" />
       </div>
     </div>
   );
